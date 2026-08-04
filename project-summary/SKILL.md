@@ -1,7 +1,6 @@
 ---
 name: project-summary
 description: Interview the user about a research draft or note to write or update project_summary.md — the current-state physics companion to RUNLOG.md.
-disable-model-invocation: true
 ---
 
 Interview me about a draft or note to build or refresh `project_summary.md`: the standing, present-tense statement of what's claimed and assumed right now, as opposed to `RUNLOG.md`'s chronological record of what was run and when. Where RUNLOG narrates *how something changed*, `project_summary.md` states *what's true now* — it gets overwritten in place, never appended to.

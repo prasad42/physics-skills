@@ -1,13 +1,12 @@
 ---
 name: lit-rev-physics
 description: Expertise-calibrated literature review of a physics subfield — grill, retrieve, synthesize.
-disable-model-invocation: true
 ---
 
 Produce a thematic literature review of a physics topic, calibrated to what the user already knows. Every bibliography entry must trace to a retrieved source; never cite from priors. Run the steps in order; each gate below blocks its successors.
 
 **Step 1 — Map the user's field model (grill)**
-Before any retrieval, interrogate the user's mental model of the subfield by invoking the `grill-me-physics` skill: treat their picture as a DAG, ask one question at a time, offer your own provisional answer each time, resolve dependencies before dependents. Retarget the object — elicit, don't demolish. Draw out: which results they take as settled, which approaches they consider live vs. dead, what they believe the open problems are, which standard methods they trust and where they suspect those methods fail. Push on unstated scope, competing framings, and gaps in their map.
+Before any retrieval, interrogate the user's mental model of the subfield by invoking the `socratic-physics` skill: treat their picture as a DAG, ask one question at a time, offer your own provisional answer each time, resolve dependencies before dependents. Retarget the object — elicit, don't demolish. Draw out: which results they take as settled, which approaches they consider live vs. dead, what they believe the open problems are, which standard methods they trust and where they suspect those methods fail. Push on unstated scope, competing framings, and gaps in their map.
 This does triple duty: it seeds sharper search queries than the bare topic, exposes the expertise axes that set synthesis depth, and gives the eventual gap analysis a target to confirm, correct, or extend.
 *Completion:* the user's field map is explicit enough to name its main themes and their stated open problems. State when reached.
 

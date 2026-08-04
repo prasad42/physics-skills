@@ -1,7 +1,6 @@
 ---
 name: paper-review
 description: Explain a research paper at depth calibrated per-concept by user self-rating.
-disable-model-invocation: true
 ---
 If no paper is attached, ask the user to attach one before proceeding.
 
