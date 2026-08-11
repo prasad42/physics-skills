@@ -1,6 +1,9 @@
 ---
 name: socratic-physics
-description: Stress-test a physics argument, model, or protocol by systematic Socratic questioning. Use when the user invokes grill-me for physics topics; when they ask to grill, interrogate, cross-examine, or stress-test a physics argument, draft, note, or idea; or when a shared understanding for a physics argument or project is needed.
+description: Stress-test a physics argument, model, or protocol by systematic Socratic questioning. Use when the user wants feedback on physics topics; when they ask to interrogate, cross-examine, or stress-test a physics argument, draft, note, or idea; or when a shared understanding for a physics argument or project is needed.
+disable-model-invocation: true
+metadata:
+  opencode/autoinvoke: false
 ---
 
 Interrogate this physics argument, model, or numerical protocol by systematic Socratic questioning. Treat the argument as a dependency graph over its nodes — definitions, assumptions, derivation steps, approximation regimes, observable consequences, failure modes — where edges are genuine logical or physical dependencies (e.g. an approximation regime constrains which derivation steps are valid; a failure mode may force revision of an upstream assumption). Identify the dependencies between nodes and resolve each blocker before its dependents. Do not force a linear order where the structure is a DAG.

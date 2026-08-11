@@ -1,6 +1,9 @@
 ---
 name: lit-rev-physics
 description: Expertise-calibrated literature review of a physics subfield — grill, retrieve, synthesize.
+disable-model-invocation: true
+metadata:
+  opencode/autoinvoke: false
 ---
 
 Produce a thematic literature review of a physics topic, calibrated to what the user already knows. Every bibliography entry must trace to a retrieved source; never cite from priors. Run the steps in order; each gate below blocks its successors.

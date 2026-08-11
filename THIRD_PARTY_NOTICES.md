@@ -5,7 +5,6 @@ This repository is MIT-licensed (see [LICENSE](./LICENSE)). The following skill 
 - [grill-me](./grill-me/)
 - [handoff](./handoff/)
 - [teach](./teach/)
-- [writing-great-skills](./writing-great-skills/)
 
 Their original license notice:
 
