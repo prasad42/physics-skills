@@ -1,0 +1,5 @@
+interface:
+  display_name: "To Draft"
+  short_description: "Build an evidence-backed draft handoff"
+policy:
+  allow_implicit_invocation: false

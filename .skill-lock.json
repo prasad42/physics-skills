@@ -1,0 +1,122 @@
+{
+  "version": 3,
+  "skills": {
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "76a98a285cb0434f3d39e1a873823556330e398b",
+      "installedAt": "2026-07-22T13:23:54.222Z",
+      "updatedAt": "2026-07-22T13:24:02.782Z"
+    },
+    "grill-me": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/productivity/grill-me/SKILL.md",
+      "skillFolderHash": "3df14e2d3a89459bf300614be9247e3ce74798f8",
+      "installedAt": "2026-07-22T13:23:54.223Z",
+      "updatedAt": "2026-08-19T17:52:46.983Z"
+    },
+    "grill-me-physics": {
+      "source": "prasad42/physics-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/prasad42/physics-skills.git",
+      "skillPath": "grill-me-physics/SKILL.md",
+      "skillFolderHash": "aaefdada532a0b30aa4b205b10f7311cac5c3650",
+      "installedAt": "2026-07-22T13:23:54.223Z",
+      "updatedAt": "2026-07-22T13:23:54.223Z"
+    },
+    "lit-rev-physics": {
+      "source": "prasad42/physics-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/prasad42/physics-skills.git",
+      "skillPath": "lit-rev-physics/SKILL.md",
+      "skillFolderHash": "1757f86eee6e946dcebaebdb5e53774ad9967310",
+      "installedAt": "2026-07-22T13:23:54.223Z",
+      "updatedAt": "2026-08-19T17:52:55.460Z"
+    },
+    "log": {
+      "source": "prasad42/physics-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/prasad42/physics-skills.git",
+      "skillPath": "log/SKILL.md",
+      "skillFolderHash": "3c766793e4795f88996892ee2befdaab62065787",
+      "installedAt": "2026-07-22T13:23:54.223Z",
+      "updatedAt": "2026-07-22T13:23:54.223Z"
+    },
+    "paper-review": {
+      "source": "prasad42/physics-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/prasad42/physics-skills.git",
+      "skillPath": "paper-review/SKILL.md",
+      "skillFolderHash": "73a8c1ae54387282295f339ed003799eca37ba75",
+      "installedAt": "2026-07-22T13:23:54.224Z",
+      "updatedAt": "2026-08-19T17:52:58.122Z"
+    },
+    "teach": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/productivity/teach/SKILL.md",
+      "skillFolderHash": "2ab11f2f51f3c29771edb5d4258d807a49462491",
+      "installedAt": "2026-07-22T13:23:54.224Z",
+      "updatedAt": "2026-08-19T17:52:48.498Z"
+    },
+    "writing-great-skills": {
+      "source": "prasad42/physics-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/prasad42/physics-skills.git",
+      "skillPath": "writing-great-skills/SKILL.md",
+      "skillFolderHash": "c84411b360fad91b8756e60fa17fd5b5761422dd",
+      "installedAt": "2026-07-22T13:23:54.224Z",
+      "updatedAt": "2026-07-22T13:23:54.224Z"
+    },
+    "grilling": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/productivity/grilling/SKILL.md",
+      "skillFolderHash": "0d40d978f1a588971a11ea7ae85b208e78102dc3",
+      "installedAt": "2026-08-07T05:55:01.229Z",
+      "updatedAt": "2026-08-19T17:52:50.446Z"
+    },
+    "writing-for-agents": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/productivity/writing-for-agents/SKILL.md",
+      "skillFolderHash": "ad2925850efb8973a72d2e666f7a975f9a2d4a9b",
+      "installedAt": "2026-08-07T09:06:42.558Z",
+      "updatedAt": "2026-08-19T17:52:52.137Z"
+    },
+    "research": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/research/SKILL.md",
+      "skillFolderHash": "0a6796c5667e95ed2301ba7381c123b4acb2ae1a",
+      "installedAt": "2026-08-07T09:06:42.560Z",
+      "updatedAt": "2026-08-19T17:52:53.672Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "antigravity-cli",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-code-cli",
+    "opencode",
+    "warp",
+    "zed"
+  ]
+}
