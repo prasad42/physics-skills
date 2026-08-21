@@ -78,9 +78,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/productivity/grilling/SKILL.md",
-      "skillFolderHash": "0d40d978f1a588971a11ea7ae85b208e78102dc3",
+      "skillFolderHash": "f0732035b8b1b60ae39454e4191caef32fa91903",
       "installedAt": "2026-08-07T05:55:01.229Z",
-      "updatedAt": "2026-08-19T17:52:50.446Z"
+      "updatedAt": "2026-08-21T03:43:32.186Z"
     },
     "writing-for-agents": {
       "source": "mattpocock/skills",
@@ -99,6 +99,15 @@
       "skillFolderHash": "0a6796c5667e95ed2301ba7381c123b4acb2ae1a",
       "installedAt": "2026-08-07T09:06:42.560Z",
       "updatedAt": "2026-08-19T17:52:53.672Z"
+    },
+    "unslop": {
+      "source": "backnotprop/pstack",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/backnotprop/pstack.git",
+      "skillPath": "skills/unslop/SKILL.md",
+      "skillFolderHash": "6161508c5c7959b156ff0e4e10b510863b51f9cc",
+      "installedAt": "2026-08-20T12:24:48.047Z",
+      "updatedAt": "2026-08-20T12:24:48.047Z"
     }
   },
   "dismissed": {

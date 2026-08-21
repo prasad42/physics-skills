@@ -1,0 +1,5 @@
+interface:
+  display_name: "research-layout"
+  short_description: "Migrate scientific Python code into src and scripts"
+policy:
+  allow_implicit_invocation: false

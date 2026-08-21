@@ -1,0 +1,5 @@
+interface:
+  display_name: "research-init"
+  short_description: "Bootstrap a proposal-led research repository"
+policy:
+  allow_implicit_invocation: false
