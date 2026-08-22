@@ -164,8 +164,9 @@ practical, and generation commands. Preserve historical standalone work under
 Keep `AGENTS.md` short and behavioral, not a repository summary. Give strong
 conditional pointers to `notes/proposal.md`, `runlog/README.md`, and
 `tests/README.md`; state the one-goal-per-session boundary and only confirmed
-environment commands. Put detailed lifecycle and evidence rules in their
-READMEs.
+environment commands. Require explicit user approval before pruning tmux
+sessions or panes after a goal is marked finished. Put detailed lifecycle and
+evidence rules in their READMEs.
 
 Remain language-neutral when inspection does not establish the language; ask
 which language the codebase will use. For Python, ask whether to adopt an
