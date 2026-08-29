@@ -51,9 +51,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/prasad42/physics-skills.git",
       "skillPath": "paper-review/SKILL.md",
-      "skillFolderHash": "73a8c1ae54387282295f339ed003799eca37ba75",
+      "skillFolderHash": "576a3c9fd541c81b0324bd72b730c7e703d7a499",
       "installedAt": "2026-07-22T13:23:54.224Z",
-      "updatedAt": "2026-08-19T17:52:58.122Z"
+      "updatedAt": "2026-08-29T03:44:02.868Z"
     },
     "teach": {
       "source": "mattpocock/skills",
