@@ -126,6 +126,33 @@ not create example goals or results.
 The external draft remains separate. Mention `/to-draft` in `AGENTS.md` only
 when draft work is requested.
 
+### Scientific and execution contracts
+
+When adopting an existing scientific repository, preserve its authoritative
+scope document, such as `project_summary.md`, and require it to be read before
+changing claims, acceptance criteria, or deferred work. Do not let a goal,
+test, or draft note silently broaden that scope.
+
+If scientific or numerical validation fails, the active goal must record the
+exact reproduction, first divergence, residual and tolerance evidence,
+diagnosis class (algebraic, instrument or fixture, numerical, physical, or
+resource), corrective revision, rerun result, and remaining scope before work
+continues.
+
+When the repository has an execution contract, preserve it as the authority
+for commands. Its design should cover explicit runtime and worker approval,
+the confirmed host and environment, shell-first interactive tmux launches,
+unbuffered visible progress, clean approved revisions, complete provenance,
+and cleanup of owned sessions. A remote launch that depends on inherited PATH
+must be replaced by the target's confirmed absolute executable and explicit
+shell procedure. Use Git for all repository synchronization and transfer of
+tracked files; do not substitute `scp` for Git-based revision or repository
+transfer. When the target designates a compute host, keep planning, code,
+documentation, and runlog edits on the control machine; use the compute host
+only for approved simulations and artifact generation, plus the required Git
+push of approved generated artifacts afterward. Pull those artifacts onto the
+control machine with Git.
+
 ### Runlog contract
 
 `runlog/README.md` is the lifecycle index and detailed source of truth. A goal
@@ -140,6 +167,7 @@ plan, evidence/results, and next action. Consult active and planned goals during
 normal work; consult finished or deprecated goals for history, provenance,
 review, or contradictions. When commits are authorized, commit each lifecycle
 transition with its related code or results; otherwise report it as uncommitted.
+Never infer commit or push authority from repository access.
 
 Keep one runlog goal per primary agent session. Before changing goals, update
 the current goal's evidence, blockers, and next action, then stop. A continuation
@@ -158,6 +186,14 @@ Large canonical data may live elsewhere, but link it through provenance
 manifests containing parameters, seeds, code revision, environment, hashes where
 practical, and generation commands. Preserve historical standalone work under
 `tests/legacy/unmapped/` until a goal explicitly adopts it.
+
+When figures are in scope, preserve the repository's figure contract and require
+it before rendering. Goal-local validation and review figures, including
+PNG/PDF pairs and provenance, belong under the immutable
+`tests/YYYYMMDD/goal-N/figures/` path. A top-level `figures/` path is a
+promotion target only when the goal explicitly approves a canonical or
+publication-facing output. Record the selected physical layout, source data,
+command, code revision, and validation of the resulting figure artifacts.
 
 ### Agent instructions and environment
 
@@ -208,7 +244,7 @@ those paths before staging; leave the changes uncommitted if staging can execute
 external code. Disable repository hooks and commit signing for the initialization
 commit so approval cannot trigger unrelated execution.
 
-Run no scientific code, simulations, tests, analyses, figure generation,
+Run no scientific code, simulations, tests, analyses, or artifact generation,
 package installation, or environment creation during initialization.
 
 Completion: every approved action is applied and no unapproved path changed.
