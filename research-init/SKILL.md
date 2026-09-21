@@ -3,92 +3,98 @@ name: research-init
 description: Bootstrap a proposal-led scientific research repository.
 argument-hint: "[target repository path]"
 disable-model-invocation: true
-metadata:
-  opencode/autoinvoke: false
 ---
 
-Initialize a scientific research repository around this evidence chain:
+# Research repository initializer
 
-`proposal -> codebase -> runlog/tests/notes -> /to-draft -> external draft`
+Build this evidence chain:
+
+`proposal -> codebase -> runlog/tests/notes -> @to-draft -> external draft`
 
 This is a gated initializer, not a research run. Inspect and design before
-writing. Preserve existing content, stay safe in dirty worktrees, and leave
-scientific code, simulations, tests, package installation, environment creation,
-and the external draft untouched.
+writing. Preserve existing content and dirty worktrees. Leave scientific code,
+executable tests, simulations, analyses, package installation, environment
+creation, and the external draft untouched.
 
-## 1. Establish the target
+## 1. Target gate
 
-Use the supplied path, or the current working directory when none was supplied.
-Resolve it to an absolute path. Read every applicable `AGENTS.md`, then inspect
-the target's files, Git state, existing proposal and workflow documents,
-language manifests, environment definitions, and test conventions.
+Use the supplied target or the current directory and resolve it absolutely.
+Read every applicable `AGENTS.md`. Inspect the target's files, Git state,
+proposal and workflow documents, language manifests, environment definitions,
+and test conventions.
 
-Classify the target as a new repository or adoption of an existing repository.
-Treat any meaningful existing content as adoption; ask when the classification
-is ambiguous. Present the absolute path and classification and obtain
-confirmation before continuing.
+Classify the target:
 
-If `.git/` is absent, ask whether Git initialization is permitted. Ask
-separately whether an initialization commit is permitted. Git presence never
-implies commit permission.
+- **New**: no meaningful existing content.
+- **Adoption**: any meaningful existing content. Preserve compatible paths and
+  conventions. If governance already satisfies this contract, report a clean
+  audit and stop instead of rewriting it.
 
-Completion: the confirmed target, mode, exact initial Git status, and Git
-authority are known without changing the target.
+Ask when classification is ambiguous. Present the absolute path and
+classification for confirmation. If `.git/` is absent, ask separately for Git
+initialization and for an initialization commit. Repository access and Git
+presence grant neither commit nor push authority.
 
-## 2. Establish scientific intent
+**Gate:** the user has confirmed the target and mode; the exact initial Git
+status and Git authority are recorded; the target is unchanged.
+
+## 2. Scientific-intent gate
 
 Search `notes/` case-insensitively for exactly named proposal files in Markdown,
 TeX, or PDF form, including `proposal.md`, `Proposal.tex`, and `Proposal.pdf`.
-Also reconcile any proposal candidate outside `notes/` found during target
-inspection; ask whether it is authoritative rather than creating a competing
-proposal.
+Reconcile proposal candidates found elsewhere during inspection.
 
-- If exactly one exists, ask whether it remains authoritative and preserve it.
-- If several exist, require the user to select the authoritative proposal.
-- If the authoritative proposal is not `notes/proposal.md`, propose a short
-  `notes/proposal.md` pointer containing its path, format, and confirmation date.
-- If revision is needed, stop initialization and recommend a separate proposal
-  revision task. This initializer never revises, translates, renames, or
-  overwrites an existing proposal.
+- One candidate: ask whether it remains authoritative.
+- Several candidates: require the user to choose one.
+- Authoritative file outside `notes/proposal.md`: propose a short
+  `notes/proposal.md` pointer recording its path, format, and confirmation date.
+- Revision required: stop and recommend a separate revision task. Preserve the
+  existing proposal without translating, renaming, or overwriting it.
 
-When no proposal exists, perform a focused primary-source check before making
-claims about novelty, priority, or a literature gap. Retrieve sources rather
-than citing from memory; record stable DOI or URLs and retrieval dates. Keep
-concise claim-linked anchors in the proposal. Propose a separate literature note
-only when the analysis would bloat the proposal.
+This initializer alone may create the proposal or pointer; later workflows defer
+proposal creation here.
 
-Load the `grilling` skill and work the complete scientific-intent design tree in
-rounds. Ask only decisions; inspect the repository and literature for facts.
-Settle every applicable branch:
+When no proposal exists, retrieve primary sources before asserting novelty,
+priority, or a literature gap. Record stable DOI or URLs and retrieval dates;
+keep claim-linked anchors concise. Propose a separate literature note only when
+the necessary analysis would bloat the proposal.
 
-- Motivation and context.
-- Research gap.
-- Questions and hypotheses.
-- Intended claims and evidentiary thresholds.
-- Model, assumptions, and validity regime.
-- Observables, methods, and planned analyses.
-- Expected interpretations and conditional outcomes.
-- Deliverables, figures, and tables.
-- Draft scope and target audience or venue.
-- Literature anchors.
-- Exclusions and deferred work.
+Load `grilling` and settle the scientific-intent frontier in rounds. Ask only
+for decisions; inspect the repository and literature for facts. Cover every
+applicable branch:
 
-Mark genuinely unresolved items instead of inventing answers. For a new
-proposal, when the frontier is empty, present the complete proposed
-`notes/proposal.md` and request explicit confirmation. For an existing
-authoritative proposal, present the proposed pointer when one is needed and
-confirm that the proposal still enumerates the intended claims, scope, and
-deliverables. Partial approvals do not open the write gate.
+- motivation, context, and research gap;
+- questions, hypotheses, intended claims, and evidentiary thresholds;
+- model, assumptions, and validity regime;
+- observables, methods, and planned analyses;
+- expected interpretations and conditional outcomes;
+- deliverables, figures, and tables;
+- draft scope, audience or venue, and literature anchors;
+- exclusions and deferred work.
 
-Completion: one authoritative proposal is confirmed, and any new proposal or
-pointer has complete approved text but has not yet been written.
+Mark unresolved items explicitly. For a new proposal, present the complete
+proposed `notes/proposal.md` only after the frontier is empty, then request
+explicit approval. For an existing proposal, present any required pointer and
+confirm that the proposal still covers the intended claims, scope, and
+deliverables. Partial approval keeps the gate closed.
 
-## 3. Design the repository
+**Gate:** one authoritative proposal is confirmed; any new proposal or pointer
+has complete approved text and remains unwritten.
 
-Use this baseline:
+## 3. Repository-design gate
+
+Before proposing baseline file contents, read
+[`references/default-manifest.md`](references/default-manifest.md). Use its
+canonical templates for new repositories and as the comparison baseline in
+adoption mode. Substitute confirmed values, select only applicable conditional
+blocks, and expose every adaptation in the exact manifest.
+
+### New-repository baseline
 
 ```text
 AGENTS.md
+README.md
+FIGURES.md
 notes/
   README.md
   proposal.md
@@ -96,175 +102,225 @@ notes/
 runlog/
   README.md
   GOAL_TEMPLATE.md
-  HANDOFF_TEMPLATE.md
   planned/
   active/
   finished/
   deprecated/
-  handoffs/
 tests/
   README.md
+  unit/
+  integration/
+  evidence/
   legacy/unmapped/
 ```
 
-Use minimal placeholder files only when empty directories must be tracked. Do
-not create example goals or results.
+In adoption mode, preserve compatible existing paths. Do not add `tests/unit/`
+or `tests/integration/` merely to match the baseline. A future-governance
+boundary may leave every historical goal and evidence path unchanged. Track
+empty directories only with minimal placeholders. Create no example goals or
+results. Use `@python-layout` as a separate task when an existing Python
+repository must become installable.
 
-### Role boundaries
+New goal and evidence directory names use only `GNNNN`; do not add dates to
+their names. Preserve dated legacy paths unchanged in adoption mode.
 
-- `notes/proposal.md` is the authoritative scientific intent or a pointer to it.
-- `runlog/` is the chronological, authoritative lifecycle record for goals.
-- `tests/` holds reproducible goal-linked validation and evidence.
-- Other notes hold analytical derivations, literature work, meeting decisions,
-  or scientific synthesis; identify each note's role and provenance in its title
-  or opening metadata rather than enforcing speculative subdirectories.
-- `runlog/handoffs/` carries session continuation context.
-- `notes/draft-handoffs/` carries `/to-draft` outputs to a separate draft
-  workspace.
+### Authority map
 
-`notes/README.md` must explain these boundaries and the full evidence chain.
-The external draft remains separate. Mention `/to-draft` in `AGENTS.md` only
-when draft work is requested.
+- `notes/proposal.md`: authoritative scientific intent or pointer.
+- `runlog/`: chronological goal lifecycle and authoritative status.
+- `tests/unit/`, `tests/integration/`: live reusable tests.
+- `tests/evidence/GNNNN/`: immutable evidence linked to goal `GNNNN`.
+- Other notes: derivations, literature, meetings, and synthesis; identify role
+  and provenance in the title or opening metadata.
+- `notes/draft-handoffs/`: `@to-draft` output for the separate draft workspace.
 
-### Scientific and execution contracts
+Make `notes/README.md` explain this map and the full evidence chain. Keep the
+external draft separate. Mention `@to-draft` in `AGENTS.md` only when draft work
+is requested.
 
-When adopting an existing scientific repository, preserve its authoritative
-scope document, such as `project_summary.md`, and require it to be read before
-changing claims, acceptance criteria, or deferred work. Do not let a goal,
-test, or draft note silently broaden that scope.
+### Scope and failure contracts
 
-If scientific or numerical validation fails, the active goal must record the
-exact reproduction, first divergence, residual and tolerance evidence,
-diagnosis class (algebraic, instrument or fixture, numerical, physical, or
-resource), corrective revision, rerun result, and remaining scope before work
-continues.
+In adoption mode, preserve the authoritative scope document, such as
+`project_summary.md`, and require it before changing claims, acceptance
+criteria, or deferred work. Goals, tests, and draft notes remain within that
+scope.
 
-When the repository has an execution contract, preserve it as the authority
-for commands. Its design should cover explicit runtime and worker approval,
-the confirmed host and environment, shell-first interactive tmux launches,
-unbuffered visible progress, clean approved revisions, complete provenance,
-and cleanup of owned sessions. A remote launch that depends on inherited PATH
-must be replaced by the target's confirmed absolute executable and explicit
-shell procedure. Use Git for all repository synchronization and transfer of
-tracked files; do not substitute `scp` for Git-based revision or repository
-transfer. When the target designates a compute host, keep planning, code,
-documentation, and runlog edits on the control machine; use the compute host
-only for approved simulations and artifact generation, plus the required Git
-push of approved generated artifacts afterward. Pull those artifacts onto the
-control machine with Git.
+Require an active goal to record every scientific or numerical validation
+failure before work continues: exact reproduction, first divergence, residual
+and tolerance evidence, diagnosis class (algebraic, instrument or fixture,
+numerical, physical, or resource), corrective revision, rerun result, and
+remaining scope.
+
+### Execution contract
+
+Ask whether this machine is the control host and Chandra the compute host. If
+so, keep planning, code, documentation, and runlog edits on the control host;
+reserve Chandra for approved simulations and artifact generation. Preserve the
+existing command authority or propose `runlog/EXECUTION.md`.
+
+The authority must specify:
+
+- explicit runtime and worker approval;
+- confirmed host and environment;
+- shell-first interactive tmux launches with unbuffered visible progress;
+- clean approved revisions and complete provenance;
+- cleanup of owned sessions;
+- the confirmed absolute executable and explicit shell procedure when remote
+  execution would otherwise inherit `PATH`;
+- Git-only cross-host transfer of tracked files.
+
+For a cross-host run, push the exact approved clean revision, verify that exact
+revision and a clean Chandra checkout, commit and push only approved generated
+artifacts there, and pull them onto the control host with Git. Record both
+hosts, revisions, commands, worker counts, sessions, outputs, and post-transfer
+verification. `scp` is not a repository or revision transfer mechanism.
 
 ### Runlog contract
 
-`runlog/README.md` is the lifecycle index and detailed source of truth. A goal
-starts only after plan approval at `planned/YYYYMMDD-goal-N.md`, where `N` is the
-next unused number for that date. Its identifier never changes. Move the same
-file to `active/` when work starts, `finished/` with completed results, or
-`deprecated/` with a reason and successor when applicable. Synchronize the
-index on every transition.
+Make `runlog/README.md` the lifecycle index and detailed authority. A goal starts
+only after plan approval creates `planned/GNNNN.md`.
 
-Every goal contains title, state, created and updated dates, goal, code/artifacts,
-plan, evidence/results, and next action. Consult active and planned goals during
-normal work; consult finished or deprecated goals for history, provenance,
-review, or contradictions. When commits are authorized, commit each lifecycle
-transition with its related code or results; otherwise report it as uncommitted.
-Never infer commit or push authority from repository access.
+Allocate the smallest integer greater than every `GNNNN` found across all
+lifecycle directories and the evidence root, using at least four digits. Create
+the planned file without overwriting; if concurrency takes the ID, rescan. The
+ID never changes. Move the same file to `active/`, `finished/`, or
+`deprecated/`, and synchronize the index on every transition.
 
-Keep one runlog goal per primary agent session. Before changing goals, update
-the current goal's evidence, blockers, and next action, then stop. A continuation
-handoff records the goal ID, repository state, settled decisions, evidence,
-blockers, and exact next action without duplicating the goal's full history.
+Every goal records its ID, title, state, created and updated dates, bounded
+outcome, code/artifacts, plan, evidence/results, and exact next action. Commit a
+transition with its related code or results only when authorized; otherwise
+report it as uncommitted.
 
-### Evidence contract
+Normal work consults the index and relevant active or planned goal. Read
+finished or deprecated goals for history, provenance, review, or contradiction
+resolution.
 
-Goal-specific validation belongs at the immutable path
-`tests/YYYYMMDD/goal-N/`, linked from the goal's `Code / Artifacts` section.
-Keep validation scripts, notebooks, compact reproducible inputs, metadata,
-summaries, and reviewable artifacts together there. The path does not move with
-the goal's lifecycle state.
+Before allocation, compare scope and acceptance criteria with related goals:
 
-Large canonical data may live elsewhere, but link it through provenance
-manifests containing parameters, seeds, code revision, environment, hashes where
-practical, and generation commands. Preserve historical standalone work under
-`tests/legacy/unmapped/` until a goal explicitly adopts it.
+- continue the matching active goal;
+- reuse the matching planned goal;
+- report no remaining work when a finished goal already satisfies the request;
+- create a linked successor to extend or correct finished work;
+- follow a deprecated goal's successor rather than reactivating it.
 
-When figures are in scope, preserve the repository's figure contract and require
-it before rendering. Goal-local validation and review figures, including
-PNG/PDF pairs and provenance, belong under the immutable
-`tests/YYYYMMDD/goal-N/figures/` path. A top-level `figures/` path is a
-promotion target only when the goal explicitly approves a canonical or
-publication-facing output. Record the selected physical layout, source data,
-command, code revision, and validation of the resulting figure artifacts.
+Topic overlap alone does not establish identity. Keep one goal per primary
+session. Before switching, record evidence, blockers, and the exact next action,
+then stop. When continuation needs a fresh agent session, ask the user to invoke
+the user-invoked `@handoff` skill. It writes temporary session context outside
+the repository; create no repository handoff template or handoff directory.
 
-### Agent instructions and environment
+### Evidence and adoption boundary
 
-Keep `AGENTS.md` short and behavioral, not a repository summary. Give strong
-conditional pointers to `notes/proposal.md`, `runlog/README.md`, and
-`tests/README.md`; state the one-goal-per-session boundary and only confirmed
-environment commands. Require explicit user approval before pruning tmux
-sessions or panes after a goal is marked finished. Put detailed lifecycle and
-evidence rules in their READMEs.
+Link immutable goal validation from the goal's `Code / Artifacts` section to
+`tests/evidence/GNNNN/`. Keep its scripts, notebooks, compact reproducible
+inputs, metadata, summaries, and reviewable artifacts together. The path remains
+fixed through lifecycle transitions. Preserve historical goals and evidence at
+their existing paths; retain unmapped standalone work under
+`tests/legacy/unmapped/` until a goal adopts it.
 
-Remain language-neutral when inspection does not establish the language; ask
-which language the codebase will use. For Python, ask whether to adopt an
-existing environment definition or propose a project-specific one. Environment
-files belong in the manifest, but creating an environment or installing
-packages requires separate work and approval after initialization.
+An adopted repository may switch future work to `GNNNN` only with user approval.
+First inventory every legacy active and planned goal. Close or deprecate
+completed legacy work and represent continuing work with one linked `GNNNN`
+successor; no work remains active in both systems. Mark the legacy index
+historical through the boundary date and make `runlog/README.md` authoritative
+from that date. Start at one greater than the largest existing `GNNNN` across
+lifecycle and evidence paths, or `G0001`. Update `AGENTS.md`, README pointers,
+runlog indexes and templates, and `tests/README.md` in one manifest. Move or
+rename no historical file. Historical relocation, live-suite reorganization,
+and identifier rewrites are separate tasks.
 
-Completion: every baseline path has proposed content or a deliberate compatible
-existing source of truth, with no duplicated or conflicting authority.
+Large canonical data may live elsewhere when a provenance manifest links its
+parameters, seeds, code revision, environment, generation command, and hashes
+where practical.
 
-## 4. Present the exact manifest
+### Figures, orientation, and agents
+
+Preserve the figure contract or propose `FIGURES.md`. Default to APS styling
+unless the proposal or user selects another venue. Select one- or two-column
+physical width before rendering. Put goal-local PNG/PDF review pairs and
+provenance under `tests/evidence/GNNNN/figures/`. Promote an output to top-level
+`figures/` only when the goal explicitly approves a canonical or publication
+artifact. Record physical layout, source data, command, code revision, and
+artifact validation.
+
+Keep `README.md` concise: link the proposal, lifecycle, evidence, and scope;
+record setup and environment evidence; list supported commands; and map the
+directories. Link discoverable manifests instead of copying them. In adoption
+mode, merge only missing orientation into a compatible README.
+
+Keep `AGENTS.md` short and behavioral. Give conditional pointers to
+`notes/proposal.md`, `runlog/README.md`, `tests/README.md`, and, when present,
+`runlog/EXECUTION.md` and `FIGURES.md`. State one goal per session and only
+confirmed environment commands.
+
+Include this later-session delegation gate: once an approved plan exists in its
+planned goal file and implementation is ready, ask whether to delegate to `@executor`.
+Goal approval alone is not delegation approval. On approval, dispatch the goal
+path, repository instructions, exact scope, acceptance criteria, and all
+execution and approval gates; then verify the actual changes and evidence. On
+refusal, implement directly. The initializer itself stops before implementation.
+Require explicit approval before pruning tmux sessions or panes after finish.
+
+Remain language-neutral until inspection establishes the language. For Python,
+ask whether to adopt an existing environment definition or propose a
+project-specific one. Environment files may enter the manifest; creation and
+package installation remain separate approved work.
+
+**Gate:** every baseline path has proposed content or a deliberate compatible
+authority, with no duplicated or conflicting source of truth.
+
+## 4. Manifest gate
 
 Classify every baseline and optional path as `create`, `already compatible`,
-`merge proposed`, `conflict`, or `skip`. Preserve all existing content. For each
-creation or merge, show the complete proposed text or exact patch. Show Git
-initialization, staging, and commit actions separately.
+`merge proposed`, `conflict`, or `skip`. Preserve existing content. Show the
+complete text or exact patch for every creation and merge. List Git
+initialization, staging, and commit actions separately. Unrelated dirty changes
+are neither conflicts nor proposed Git actions.
 
-A conflicting proposal, lifecycle, test, notes, environment, or `AGENTS.md`
-convention blocks that item until the user decides. Do not treat unrelated dirty
-changes as conflicts and do not include them in proposed Git actions.
+A conflict in proposal, lifecycle, tests, notes, environment, or `AGENTS.md`
+blocks that item until the user decides. Request explicit approval of the whole
+manifest.
 
-Request explicit confirmation of the complete manifest. Immediately before
-writing, re-read every existing manifest path and Git status. If anything has
-changed, recompute the affected manifest and obtain confirmation again.
-Resolve every manifest path and reject a symlink or traversal that would write
-outside the confirmed target. Treat a symlinked baseline path as a conflict
-requiring an in-repository regular-file or directory destination.
+Immediately before writing, reread every existing manifest path and Git status.
+Recompute changed items and obtain approval again. Resolve every destination;
+reject traversal and any symlink that would write outside the confirmed target.
+A symlinked baseline path remains blocked until an in-repository regular-file or
+directory destination is approved.
 
-Completion: the user has confirmed the current exact manifest, including every
-merge, conflict resolution, and Git action.
+**Gate:** the user has approved the current exact manifest, every conflict
+resolution, and each Git action.
 
-## 5. Apply safely
+## 5. Apply gate
 
-Apply only confirmed manifest actions. Never overwrite an existing proposal.
-Preserve unrelated files and dirty changes. Initialize Git only when approved.
-If a commit was approved, stage only confirmed manifest paths and use
-non-interactive Git commands. Inspect attributes and configured filters for
-those paths before staging; leave the changes uncommitted if staging can execute
-external code. Disable repository hooks and commit signing for the initialization
-commit so approval cannot trigger unrelated execution.
+Apply only approved manifest actions. Preserve unrelated files and dirty
+changes. Never overwrite an existing proposal. Initialize Git only when
+approved.
 
-Run no scientific code, simulations, tests, analyses, or artifact generation,
-package installation, or environment creation during initialization.
+For an approved commit, inspect attributes and configured filters for every
+staged path. Stage only manifest paths with non-interactive Git commands. If
+staging can execute external code, leave the changes uncommitted. Disable
+repository hooks and commit signing for the initialization commit.
 
-Completion: every approved action is applied and no unapproved path changed.
+Perform no scientific execution, simulation, test run, analysis, artifact
+generation, package installation, or environment creation.
 
-## 6. Verify
+**Gate:** every approved action is applied and no unapproved path changed.
 
-Inspect the resulting files and verify:
+## 6. Verification gate
 
-- The confirmed proposal or pointer exists unchanged at `notes/proposal.md`.
-- Required directories, indexes, templates, and context pointers exist.
-- Internal links resolve and lifecycle examples agree across documents.
-- Runlog goals and immutable test paths use the same identifier convention.
-- Pre-existing dirty paths and their content were preserved.
-- Git actions stayed within granted authority.
-- No prohibited execution occurred.
+Verify all of the following:
 
-Perform a second dry-run inspection using the same classification and manifest
-rules. Success requires no remaining required changes. Report every created or
-modified path, Git action, and unresolved conflict. A skipped conflict means the
-repository is only partially initialized; state that rather than claiming full
-success.
+- approved `notes/proposal.md` content or pointer exists unchanged;
+- required directories, indexes, templates, and context pointers exist;
+- internal links resolve and lifecycle examples agree;
+- goal and immutable-evidence identifiers agree;
+- pre-existing dirty content is preserved;
+- Git actions stayed within authority;
+- prohibited execution did not occur.
 
-Completion: verification passes and the second dry run is idempotent.
+Repeat the inspection as a dry run using the same classification and manifest
+rules. Success requires no remaining required change. Report every created or
+modified path, Git action, and unresolved conflict. A skipped conflict means
+partial initialization.
+
+**Completion:** verification passes and the second dry run is idempotent.

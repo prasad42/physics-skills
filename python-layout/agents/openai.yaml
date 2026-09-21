@@ -1,0 +1,5 @@
+interface:
+  display_name: "python-layout"
+  short_description: "Make an existing Python repository installable"
+policy:
+  allow_implicit_invocation: false

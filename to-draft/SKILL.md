@@ -2,17 +2,13 @@
 name: to-draft
 description: Prepare a proposal-led, evidence-backed handoff for creating or updating a scientific draft.
 argument-hint: "[draft path, new-draft destination, or intended draft task]"
-disable-model-invocation: true
 metadata:
   opencode/autoinvoke: false
 ---
 
 Prepare a self-contained handoff after substantial work in a scientific codebase. The handoff is both an evidence-backed patch specification for a draft-writing agent and a human-readable editorial task list. Build the first handoff from the full relevant evidence base; when a later invocation has a usable compatible baseline, build it from the delta. Then grill the user on publication decisions before writing anything.
 
-This workflow is read-only except for the two outputs explicitly allowed below:
-
-- Create `notes/proposal.md` only when no proposal exists and the user approves the complete proposed text.
-- Create one final handoff under `notes/draft-handoffs/` after the user confirms the complete editorial decision recap.
+This manuscript-facing workflow requires one existing authoritative proposal and is read-only except for one final handoff under `notes/draft-handoffs/`, written after the user confirms the complete editorial decision recap. It does not initialize a project or make Python code installable; use `@research-init` for initialization and `@python-layout` for packaging.
 
 The external draft workspace is always read-only. Treat missing verification as a limitation or task, not permission to run Python, simulations, tests, analyses, figure generation, draft compilation, or source-repository edits.
 
@@ -33,21 +29,32 @@ Resolve the draft mode before it becomes a dependency:
 
 For an existing draft, identify its source, bibliography, and referenced asset inputs without reading their scientific content yet. If it is in a Git repository, record that repository's absolute path, `HEAD`, commit metadata, and dirty state. For new-draft mode, record the intended destination and target format. Write nothing there.
 
-Locate exactly named proposal candidates under `notes/` without reading their contents, using the filename rules in step 2. Ask the user to select among multiple candidates. Record the sole or selected path; no proposal requires full review and the bootstrap branch in step 2.
+Locate exactly named proposal candidates under `notes/` without reading their
+scientific contents, using the filename rules in step 2. If
+`notes/proposal.md` exists, it is the authority entry and no other candidate may
+replace it in this workflow. Otherwise ask the user to select among multiple
+candidates and record the sole or selected authority entry. If no proposal
+exists, stop and direct the user to `@research-init`; write nothing.
 
-Search `notes/draft-handoffs/` except its `README.md` for a prior handoff with the same absolute source repository, authoritative proposal path, and draft path or destination. Inspect only filenames and handoff frontmatter during discovery; do not open each cumulative body. Choose the newest matching handoff whose frontmatter declares the current `baseline_schema` and `baseline_complete: true`. Ignore older schemas, incomplete baselines, and handoffs for other source or draft targets.
+Read only enough of the authority entry to follow its explicit proposal
+pointers to one resolved target. Reject a cycle, missing target, or path outside
+the source repository. Record and hash both the authority entry and resolved
+target, even when they are the same file; defer their scientific contents to
+step 2.
+
+Search `notes/draft-handoffs/` except its `README.md` for a prior handoff with the same absolute source repository, authoritative proposal entry and resolved target, and draft path or destination. Inspect only filenames and handoff frontmatter during discovery; do not open each cumulative body. Choose the newest matching handoff whose frontmatter declares the current `baseline_schema: 2` and `baseline_complete: true`. Ignore older schemas, incomplete baselines, and handoffs for other source or draft targets.
 
 Choose one review mode:
 
 - **Full**: no compatible handoff exists, or its baseline cannot establish what changed. Inspect the full relevant evidence base.
 - **Incremental**: a compatible handoff has a usable baseline. Treat it as a cached evidence map and inspect the delta plus anything the delta invalidates.
 
-For incremental review, read the compatible handoff once and extract its source commit, proposal hash, hashes or immutable identifiers for dependencies outside that commit, draft Git stamp or input hashes, policy-file hashes, literature retrieval dates, and complete transitive claim dependencies. Build a metadata-first change set before opening scientific files:
+For incremental review, read the compatible handoff once and extract its source commit, proposal entry and resolved-target hashes, hashes or immutable identifiers for dependencies outside that commit, draft Git stamp or input hashes, policy-file hashes, literature retrieval dates, and complete transitive claim dependencies. Build a metadata-first change set before opening scientific files:
 
 1. Compare source commits with `git diff --name-status <prior-source-commit>..HEAD` and `git log --oneline <prior-source-commit>..HEAD`; add current staged, unstaged, and recursively enumerated untracked paths from `git status --short --untracked-files=all`.
 2. Compare every dependency not captured by the prior source commit, including dirty, untracked, ignored, external, and mutable generated inputs, by SHA-256 or a stable content-addressed identifier. Include deleted paths.
 3. Inventory the current draft source, bibliography, and referenced asset input paths and compare the full path set to detect additions and deletions. For a versioned draft, also compare its prior commit to current `HEAD` and add its current staged, unstaged, and recursively enumerated untracked paths. Compare recorded hashes for every dirty, ignored, external, or other input not captured by the draft commit.
-4. Compare the proposal and source-policy hashes. Expand the changed set through the prior transitive dependencies, including runlogs, tests, data, artifacts, generators, scripts, code, manifests, analytical assumptions, and policy files. A changed conclusion also invalidates downstream claims, figures, tables, citations, and editorial decisions that depend on it.
+4. Compare both proposal hashes and the source-policy hashes. Expand the changed set through the prior transitive dependencies, including runlogs, tests, data, artifacts, generators, scripts, code, manifests, analytical assumptions, and policy files. A changed conclusion also invalidates downstream claims, figures, tables, citations, and editorial decisions that depend on it.
 5. Follow changed goals and manifests to relevant ignored artifacts. An ignored artifact without a provenance link is not evidence; flag it rather than silently adding it to a claim.
 
 Read the compatible handoff and affected files, not unchanged evidence. Carry forward an unchanged claim only when its recorded dependency closure is complete, every dependency remains unchanged, and the prior handoff gives enough provenance to satisfy the current completion gate. A filename or modification time alone is not a reliable content baseline.
@@ -64,22 +71,15 @@ Completion: source provenance, one unambiguous draft mode, one review mode, and 
 
 Use the case-insensitive proposal search completed in step 1. Exactly named Markdown, TeX, or PDF files such as `proposal.md`, `Proposal.tex`, or `Proposal.pdf` qualify.
 
-- If a proposal exists, use the sole or user-selected file as the authoritative statement of scientific intent and direction. In incremental mode, compare its content hash first and carry forward the prior proposal map when unchanged; read it when changed or when the prior handoff does not enumerate every proposal claim.
+- Use the authority entry and resolved target fixed in step 1. In incremental
+  mode, carry forward the prior proposal map only when both hashes are unchanged;
+  otherwise read the affected proposal content.
 - Keep an existing proposal read-only. If it no longer reflects the user's intent, ask whether proposal revision should occur separately before this workflow continues.
-- Do not use `project_summary.md` as a current-state authority.
+- Follow an explicit pointer in the selected proposal. Do not treat
+  `project_summary.md` as authoritative unless that proposal identifies it as
+  the authority.
 
-If no proposal exists, bootstrap one through this gated branch:
-
-1. Extract a provisional scientific proposal from `project_summary.md` when available, then the draft, README, relevant runlogs, notes, and repository evidence. These are seeds, not authority.
-2. Perform a preliminary primary-literature audit sufficient to test the proposed motivation, gap, and novelty. Retrieve sources; do not cite from memory.
-3. Load the `grilling` skill and interview the user about scientific intent, claim policy, scope, target audience or venue, and deliverables. Work the full design-tree frontier in rounds.
-4. Present the complete proposed document and request explicit confirmation.
-5. After confirmation, create `notes/proposal.md` with: motivation and context; research gap; questions and hypotheses; intended claims and evidentiary thresholds; model and assumptions; observables and methods; intended analyses; expected interpretations and conditional outcomes; draft scope and target audience or venue; planned figures and tables; literature anchors; exclusions and deferred work.
-6. Restart the normal reconciliation using the approved proposal.
-
-If the user declines, requests revisions, or withholds proposal confirmation, remain read-only and continue the proposal grilling only when the user is ready.
-
-Existing proposals retain their format. A generated proposal is Markdown because it is searchable, diffable, and directly consumable by agents.
+- Require the sole or user-selected proposal to already exist and remain read-only. If no proposal exists, stop and direct the user to `@research-init`; do not infer, bootstrap, create, or revise a proposal in this workflow.
 
 Completion: one authoritative proposal exists and every intended claim, scope boundary, and target deliverable can be enumerated from current evidence or a valid carried-forward map.
 
@@ -101,7 +101,7 @@ In full mode, read the repository's runlog index and lifecycle rules first. In i
 - Planned goals establish unresolved dependencies, not results.
 - Deprecated goals establish invalidity, supersession, or provenance, not current support.
 
-Follow each goal selected by the review mode into its linked immutable tests, scripts, result files, figures, data manifests, commits, and code. Inspect existing images and PDFs when their visual content affects publication suitability. Read code only where needed to verify implementation facts, conventions, or artifact generation. Inventory first, then read relevant material deeply; do not substitute a broad historical summary for claim-level provenance or reopen unchanged evidence without an invalidated dependency.
+Follow each goal selected by the review mode into its linked immutable tests, scripts, result files, figures, data manifests, commits, and code. Resolve evidence locations from the repository's own policy and indexes (for example, read `tests/README.md` when it defines test evidence); record the exact paths in the handoff rather than imposing a universal directory or naming convention. Inspect existing images and PDFs when their visual content affects publication suitability. Read code only where needed to verify implementation facts, conventions, or artifact generation. Inventory first, then read relevant material deeply; do not substitute a broad historical summary for claim-level provenance or reopen unchanged evidence without an invalidated dependency.
 
 Use this authority order when sources conflict:
 
@@ -123,7 +123,7 @@ Completion: every proposal claim and relevant draft claim has a current status, 
 
 ## 4. Audit the literature
 
-Before editorial grilling, perform a focused literature audit for the claims identified above. This is a draft-facing audit, not a general thematic review. In incremental mode, carry forward literature records for unchanged claims and retrieve sources only for affected claims, changed citations, unresolved prior gaps, novelty and priority coverage last checked more than 30 days ago, or other literature coverage last checked more than 180 days ago. Recheck novelty and priority on every submission or revision handoff regardless of age.
+Before editorial grilling, perform a focused literature audit for the claims identified above. This is a draft-facing audit, not a general thematic review. In incremental mode, carry forward literature records for unchanged claims and retrieve sources only for affected claims, changed citations, unresolved prior gaps, novelty and priority coverage last checked more than 30 days ago, or other literature coverage last checked more than 180 days ago. Recheck novelty and priority on every submission or revision handoff regardless of age. During the audit, record the coverage-check date and search scope for each literature-dependent claim so the final handoff and next incremental review do not require reconstruction.
 
 1. Read relevant repository literature notes and follow their citations to retrieved primary papers.
 2. For every literature-dependent claim, check direct precedents, seminal context, recent competing results, and novelty or priority risk.
@@ -164,26 +164,7 @@ Create `notes/draft-handoffs/` if needed. Write exactly one self-contained file 
 
 Derive a short filesystem-safe slug from the confirmed draft task. Never overwrite an existing handoff; if the name already exists, append the next unused numeric suffix such as `-2`. Use repository-relative paths for source artifacts and record the absolute source repository path once in provenance. Include the external draft's absolute path because it belongs to another workspace.
 
-Use this structure:
-
-Begin with compact YAML frontmatter containing `baseline_schema: 1`, `baseline_complete`, `created`, `source_root`, `source_commit`, `proposal_path`, `proposal_sha256`, `draft_target`, `receiving_task`, and `review_mode`. Set `baseline_complete: true` only when the body contains every baseline field required by this workflow; otherwise set it to `false`. These fields support metadata-only baseline discovery; quote path and task values.
-
-1. **Title and provenance**: creation timestamp with timezone; source repository path; full and short commit; commit date and subject; exact dirty state; proposal path and content hash; draft path or destination; draft Git stamp when available. Mark dirty and untracked evidence provisional.
-2. **Review baseline and delta**: full or incremental mode; compatible handoff path or full-review reason; prior and current source and draft stamps; exact added, modified, renamed, deleted, dirty, and untracked paths; affected claims; and claims carried forward. Record SHA-256 or a stable content-addressed identifier for every dependency not captured by the source commit and for every applicable policy file. Record the complete draft source, bibliography, and referenced asset input path set, identify which inputs the draft commit captures, and give SHA-256 for every uncaptured input.
-3. **Receiving task and boundaries**: the exact draft objective, allowed workspace, and read/write boundary.
-4. **Prioritized checklist**: flat Markdown checkboxes tagged `[AUTHOR]`, `[DRAFT]`, `[SOURCE]`, `[VERIFY]`, or `[BLOCKED]`. State dependencies and acceptance criteria.
-5. **Executive editorial decisions**: concise confirmed outcomes.
-6. **Claim ledger**: for every proposal and relevant draft claim, give disposition, draft destination, evidence class, exact scoped wording guidance, strongest repository evidence, literature support, caveats, conflicts, and its complete transitive dependency paths. Include runlogs, tests, data, artifacts, generators, scripts, code, manifests, analytical assumptions, and policy files that can change the conclusion. This ledger is the dependency map for the next invocation.
-7. **Literature and novelty audit**: claim-to-source table stating what each primary source supports, what it does not support, whether the draft already cites it, its stable DOI or URL, and retrieval date. Record the coverage-check date and search scope for each literature-dependent claim so a later invocation can apply the freshness bounds. Add BibTeX-ready entries only for recommended additions.
-8. **Section-by-section patch specification**: exact sections to add, revise, move, or remove. Supply draft-ready wording only where wording itself was confirmed during grilling.
-9. **Figure and table matrix**: classify each item as **Ready**, **Needs editorial assembly**, **Needs source generation**, **Needs new evidence**, or **Omit/defer**. For ready items, provide exact artifact path, provenance, supported caption claims, and destination. For other items, provide a concrete task, workspace, dependencies, and acceptance criterion. Main-text placement requires an explicit editorial decision.
-10. **Appendix and supplement decisions**.
-11. **Omissions, inconclusive results, and future work**.
-12. **Contradictions and unresolved risks**.
-13. **Notes consulted**: include only materially important notes, with path, role, affected claims, provenance quality, and current status.
-14. **Artifact manifest**: exact repository-relative paths and associated runlog goals or commits.
-15. **Verification checklist**: checks the receiving agent or author must perform in the draft.
-16. **First actions**: an ordered, minimal starting sequence for the receiving agent.
+Before writing, read the co-located [handoff schema](references/handoff-schema.md). It is required for every final handoff branch: use its frontmatter and all 16 sections, and do not omit a section because review mode is full or incremental. The schema carries the detailed output requirements; this file retains the workflow steps and completion gates.
 
 The handoff is cumulative and must stand alone. Revalidate conclusions affected by the delta, carry forward unchanged conclusions with their provenance, and restate the complete current result so the reader never has to reconstruct it from earlier handoffs.
 
@@ -204,4 +185,4 @@ Finish only when all conditions hold:
 - The user confirmed the complete decision recap.
 - The timestamped, SHA-stamped handoff exists and is human-readable as a task list without sacrificing claim-level provenance.
 
-Report the created proposal path, if any, and final handoff path. Report open or blocked items succinctly. Do not modify the draft.
+Report the authoritative proposal path and final handoff path. Report open or blocked items succinctly. Do not modify the draft.
