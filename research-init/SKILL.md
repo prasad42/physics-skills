@@ -160,11 +160,29 @@ existing command authority or propose `runlog/EXECUTION.md`.
 
 The authority must specify:
 
-- explicit runtime and worker approval;
+- one explicit bounded execution-bundle approval rather than per-command
+  prompts;
+- the bundle's scientific scope, mutating commands, revision, parameters,
+  seeds, outputs, runtime ceiling, and worker ceiling;
+- bundled read-only preflight, synchronization, monitoring, verification, and
+  provenance commands;
+- cache-first checkpoints: when complete compatible raw caches can answer a
+  request, prefer a bounded cache-only path with atomic per-unit outputs,
+  exact input hashes, provenance, review-only partial labeling, and separate
+  trajectory-resampling versus averaged-cache records; trajectory-producing
+  units checkpoint every completed indexed trajectory through one parent writer
+  and resume only validated missing indices;
+- renewal triggers for changed scientific scope, revision, host or environment,
+  parameters, outputs, runtime or worker bounds, or mutating actions;
+- fail-safe instrument-only launch corrections may remain in the bundle only
+  when no scientific work or data mutation began and every bound is unchanged;
 - confirmed host and environment;
-- shell-first interactive tmux launches with unbuffered visible progress;
+- long compute launches through shell-first interactive tmux with unbuffered
+  visible progress;
 - clean approved revisions and complete provenance;
-- cleanup of owned sessions;
+- declaration and cleanup of every owned tmux session before the goal can move
+  to `finished/`; any bundle that creates a session must name its exact cleanup
+  command, and an unlisted session blocks completion;
 - the confirmed absolute executable and explicit shell procedure when remote
   execution would otherwise inherit `PATH`;
 - Git-only cross-host transfer of tracked files.
@@ -259,7 +277,8 @@ Goal approval alone is not delegation approval. On approval, dispatch the goal
 path, repository instructions, exact scope, acceptance criteria, and all
 execution and approval gates; then verify the actual changes and evidence. On
 refusal, implement directly. The initializer itself stops before implementation.
-Require explicit approval before pruning tmux sessions or panes after finish.
+Require explicit approval before pruning tmux sessions or panes after finish
+unless cleanup was named in an approved execution bundle.
 
 Remain language-neutral until inspection establishes the language. For Python,
 ask whether to adopt an existing environment definition or propose a

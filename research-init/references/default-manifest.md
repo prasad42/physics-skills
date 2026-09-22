@@ -207,8 +207,8 @@ List every expected code, data, note, figure, and immutable evidence path.
 
 - Execution required: Yes / No
 - Approved host and environment: Pending / Not applicable
-- Runtime and worker approval: Pending / Not applicable
-- Approved revision and session: Pending / Not applicable
+- Execution bundle: Pending / Not applicable
+- Approved revision, session, runtime ceiling, and worker ceiling: Pending / Not applicable
 - Commit authority: Not granted
 - Push authority: Not granted
 
@@ -270,9 +270,9 @@ correcting finished work.
 2. Ask separately whether implementation should be delegated to `@executor`.
 3. When implementation begins, update the goal and move it to `active/`; update
    this index and commit the transition only when authorized.
-4. When acceptance criteria pass, record evidence and review, then request
-   finish, cleanup, commit, and push approvals as separate authorities unless
-   the user's request already grants a named action.
+4. When acceptance criteria pass, record evidence and review, then request any
+   finish, cleanup, commit, and push authorities not already named in an
+   approved execution bundle.
 5. After finish approval, move the goal to `finished/`, update the goal and
    indexes, and perform only approved cleanup and Git actions.
 6. For cancellation, invalidation, or supersession, record the reason and
@@ -322,10 +322,58 @@ Approved simulations and artifact generation occur on `{{COMPUTE_HOST}}` in
 
 ## Approval gate
 
-Before each command, report its purpose and estimated runtime and obtain
-explicit approval. For parallel work, also obtain the worker count. Approval for
-one command does not authorize another command, commit, push, cleanup, or
-deployment.
+Obtain one explicit approval for a bounded execution bundle, not for each shell
+command. State its purpose, primary mutating commands, approved revision, host
+and environment, parameters and seeds, outputs, runtime ceiling, worker ceiling,
+the exact tmux session or pane names, and the cleanup command that is required
+before the goal can finish. State whether it includes tracked artifact or
+runlog commits, pushes, or synchronization.
+
+The bundle includes routine read-only preflight, synchronization and cleanliness
+checks, monitoring, verification, and provenance capture. It may include an
+instrument-only launch correction after a fail-safe stop when no scientific work
+or data mutation began and every declared bound remains unchanged. Record the
+failure before retrying.
+
+Renew approval when scientific scope, revision, host or environment, parameters
+or seeds, outputs, runtime or worker bounds, or mutating actions change. Package
+installation, environment mutation, destructive operations, and Git commit or
+push remain outside the bundle unless named before approval. Cleanup of every
+declared session is mandatory; omitting it from the bundle blocks completion
+and requires renewed approval before cleanup.
+
+Before moving the goal to `finished/`, capture the final panes, verify that the
+scientific process and child workers have exited, terminate only the declared
+sessions or panes, verify that none remain with `tmux list-sessions`, and record
+the names, commands, timestamps, exit status, and zero-remaining result.
+
+## Cache-first checkpoints
+
+When a requested result can use complete compatible raw caches, choose a bounded
+cache-only checkpoint or intermediate artifact path before launching an
+unrelated long run.
+
+For analyses with independent sources or cells:
+
+1. Preflight the raw-cache inventory and declare each unit and its output path.
+2. For a trajectory-producing unit, after every completed trajectory, have one
+   parent writer atomically rewrite the same resumable NPZ with the completed
+   row, trajectory index, depth axis, child-seed lineage, status, exact input
+   hashes, revision, parameters, environment, and command provenance. Preserve
+   row identity when workers finish out of order and resume only validated
+   missing indices. For non-trajectory units, persist each completed unit
+   atomically with the same provenance fields.
+3. Serve requested partial results from persisted units without repeating
+   completed work; label them `review-only` until the full acceptance contract
+   passes.
+4. Keep trajectory-resampling outputs and averaged-cache summaries in separate
+   records and manifests.
+
+The checkpoint is complete when every reported unit has an atomic output,
+matching input hashes, and sufficient provenance for exact review or replay. A
+trajectory unit is complete only when all M indexed rows are finite and present,
+the seed lineage is complete, and the averaged cache is derived from that full
+matrix.
 
 ## Pre-execution gate
 
@@ -360,8 +408,9 @@ clean worktrees on both hosts. Record the post-transfer result in the goal.
 
 ## Cleanup
 
-After goal completion, list owned sessions and panes and obtain explicit user
-approval before pruning them. Record the cleanup result.
+After goal completion, list owned sessions and panes. Prune them when cleanup
+was named in the approved execution bundle; otherwise obtain explicit approval.
+Record the cleanup result.
 ```
 
 Replace generic Git verbs with the repository's confirmed remote and branch
